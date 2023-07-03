@@ -7,7 +7,6 @@ class App
     @games = []
   end
 
-
   include Games
   include Book
   include MusicAlbum
