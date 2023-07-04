@@ -1,3 +1,5 @@
+require_relative './musicAlbum/music_album_ui'
+
 class App
   attr_accessor :books, :music_album, :games
 
