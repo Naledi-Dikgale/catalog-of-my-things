@@ -8,6 +8,6 @@ CREATE TABLE music_albums (
 );
 
 CREATE TABLE genres (
-  id SERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY ,
   name VARCHAR(255) NOT NULL
 );
