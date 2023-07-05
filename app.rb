@@ -1,4 +1,5 @@
 require './modules/music_album_module'
+require_relative './book'
 require_relative './music_album'
 require 'json'
 
@@ -26,7 +27,11 @@ class App
     book = Book.new(published_date, title, author, cover_state)
     @books << book
     puts 'book added'
-    puts @books
+    # puts @books
+    @books.each do |book|
+      print "published date: #{book.published_date} ", "title: #{book.title} ", "author: #{book.author} ", "cover state: #{book.cover_state}"
+    end
+
     'books.json'
   end
 
@@ -43,17 +48,19 @@ class App
 
   # add music album
 
-  # def add_music_album
-  #   puts 'Enter published date'
-  #   published_date = gets.chomp
-  #   puts 'On spotify?'
-  #   on_spotify = gets.chomp
-  #   on spotify = true if on_spotify == 'yes'
-  #   on spotify = false if on_spotify == 'no'
-  #   music_album = MusicAlbum.new(published_date, on_spotify).to_hash
-  #   @music_album << music_album
-  #   puts 'music album added'
-  # end
+  def add_music_album
+    puts 'Enter published date'
+    published_date = gets.chomp
+    puts 'Enter name'
+    name = gets.chomp
+    puts 'On spotify?'
+    on_spotify = gets.chomp
+    on_spotify = true if on_spotify == 'yes'
+    on_spotify = false if on_spotify == 'no'
+    music_album = MusicAlbum.new(name, published_date, on_spotify).to_hash
+    @music_album << music_album
+    puts 'music album added'
+  end
 
   # add game
 
