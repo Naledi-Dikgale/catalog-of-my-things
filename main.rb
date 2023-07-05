@@ -21,7 +21,7 @@ class Main
     when '1'
       app.display_books
     when '2'
-      app.display_musical_album
+      app.display_music_album
     when '3'
       app.display_games
     when '4'
