@@ -1,13 +1,13 @@
-CREATE TABLE IF NOT EXISTS books (
-  id INTEGER PRIMARY KEY,
-  published_date DATE,
-  title TEXT,
-  author TEXT,
-  cover_state TEXT,
-  archived INTEGER
+CREATE TABLE music_albums (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  artist VARCHAR(255) NOT NULL,
+  release_year INT NOT NULL,
+  on_spotify BOOLEAN NOT NULL,
+  genre_id INT REFERENCES genres(id)
 );
 
-CREATE TABLE IF NOT EXISTS labels (
-  id INTEGER PRIMARY KEY,
-  name TEXT
-);
+CREATE TABLE genres (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL
+) ;
