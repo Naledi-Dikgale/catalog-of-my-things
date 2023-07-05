@@ -1,9 +1,5 @@
 require './modules/music_album_module'
-
 require_relative './music_album'
-require 'json'
-
-
 require 'json'
 
 class App
@@ -20,7 +16,7 @@ class App
   include MusicAlbum
 end
 
-def load_data # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize
+def load_data
   if File.empty?('add_music_album.json')
     puts 'List is empty'
   else
@@ -38,7 +34,7 @@ def load_data # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize
     end
   end
 
-  def save_data # rubocop:todo Metrics/MethodLength
+  def load_data
     music_albums = []
     genres = []
     @music_albums.each do |album|
