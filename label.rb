@@ -1,7 +1,6 @@
 require_relative 'item'
 
-class Label
-  # attr_reader :id
+class Label < Item
   attr_reader :title, :items
 
   def initialize(title)
@@ -21,18 +20,3 @@ class Label
     }
   end
 end
-# require_relative 'item'
-
-# class Label
-#   attr_reader :title, :items
-
-#   def initialize(name)
-#     @title = title
-#     @items = []
-#   end
-
-#   def add_item(item)
-#     @items << item
-#     item.label = self
-#   end
-# end

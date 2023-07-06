@@ -1,6 +1,6 @@
 require './modules/music_album_module'
-require_relative './book'
-require_relative './music_album'
+require_relative 'book'
+require_relative 'music_album'
 require 'json'
 
 class App
@@ -27,24 +27,19 @@ class App
     book = Book.new(published_date, title, author, cover_state)
     @books << book
     puts 'book added'
-    # puts @books
-    @books.each do |book|
-      print "published date: #{book.published_date} ", "title: #{book.title} ", "author: #{book.author} ", "cover state: #{book.cover_state}"
-    end
-
-    'books.json'
+    # 'books.json'
   end
 
   # add label
 
-  # def add_label
-  #   puts 'Enter label name'
-  #   label_name = gets.chomp
-  #   label = Label.new(label_name)
-  #   @labels << label
-  #   puts 'label added'
-  #   puts @labels
-  # end
+  def add_label
+    puts 'Enter label name'
+    label_name = gets.chomp
+    label = Label.new(label_name)
+    @labels << label
+    puts 'label added'
+    puts @labels
+  end
 
   # add music album
 
@@ -64,35 +59,34 @@ class App
 
   # add game
 
-  # def add_game
-  #   puts 'Enter published date'
-  #   published_date = gets.chomp
-  #   puts 'single player?'
-  #   single_player = gets.chomp
-  #   single_player = true if single_player == 'yes'
-  #   single_player = false if single_player == 'no'
-  #   puts 'multiplayer?'
-  #   multiplayer = gets.chomp
-  #   multiplayer = true if multiplayer == 'yes'
-  #   multiplayer = false if multiplayer == 'no'
-  #   game = Game.new(published_date, single_player, multiplayer).to_hash
-  #   @games << game
-  #   file_name_write = 'games.json'
-  #   puts 'game added'
-  # end
+  def add_game
+    puts 'Enter published date'
+    published_date = gets.chomp
+    puts 'single player?'
+    single_player = gets.chomp
+    single_player = true if single_player == 'yes'
+    single_player = false if single_player == 'no'
+    puts 'multiplayer?'
+    multiplayer = gets.chomp
+    multiplayer = true if multiplayer == 'yes'
+    multiplayer = false if multiplayer == 'no'
+    game = Game.new(published_date, single_player, multiplayer).to_hash
+    @games << game
+    puts 'game added'
+  end
 
   # display books
 
   def display_books
-    @books = JSON.parse(File.read('books.json'))
-    puts 'No books' if @books.empty?
-    @books.each do |book|
-      puts "published date: #{book['published_date']}", "title: #{book['title']}", "author: #{book['author']}", "cover state: #{book['cover_state']}"
-    end
+    # @books.each do |book|
+    #   print "published date: #{book.published_date} ", "title: #{book.title} ", "author: #{book.author} ", "cover state: #{book.cover_state}"
+    # @books = JSON.parse(File.read('books.json'))
+    # puts 'No books' if @books.empty?
     puts 'books displayed'
+    @books.each do |book|
+      print "published date: #{book.published_date} , title: #{book.title} , author: #{book.author} , cover state: #{book.cover_state}"
+    end
   end
-
-
 
   # display music album
 
