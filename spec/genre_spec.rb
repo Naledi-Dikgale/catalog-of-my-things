@@ -1,5 +1,4 @@
-# require_relative '../music_album'
-require_relative '../genre'
+require_relative 'spec_helper'
 
 # describe Genre do
 #   before :each do
@@ -7,23 +6,20 @@ require_relative '../genre'
 #     @item = Item.new('genre', 'author', 'label', 10)
 #   end
 describe Genre do
-  let(:genre) { Genre.new(name) }
-  let(:item) { double('Item')  }
-  let(:name) { 'Comedy' }
+  before :each do
+    @genre = Genre.new('Comedy')
+    @item = Item.new('genre', 'author', 'label', 10)
+  end
 
   describe '#new' do
     it 'Creates a new music album instance' do
-      # @genre.should be_an_instance_of Genre
-      expect(genre.name).to eql name
+      @genre.should be_an_instance_of Genre
     end
   end
 
   describe '#add_item' do
     it 'It should add new item' do
-      # expect(@genre.add_item(@item)).should eql? @item
-      allow(item).to receive(:genre=)
-      genre.add_item(item)
-      expect(genre.items).to include(item)
+      expect(@genre.add_item(@item)).should eql? @item
     end
   end
 end
