@@ -1,7 +1,7 @@
 require_relative 'item'
 require 'date'
 
-class Game < item
+class Game < Item
   attr_accessor :multiplayer, :last_played_at, :publish_date, :authors
   attr_reader :id, :title
 
@@ -17,9 +17,9 @@ class Game < item
   end
 
   def add_authors(authors)
-    return if authors.include?(authors)
+    return if @authors.include?(authors)
 
-    authors << authors
+    @authors << authors
     authors.add_item(self)
   end
 

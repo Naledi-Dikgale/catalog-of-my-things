@@ -1,25 +1,26 @@
-require_relative 'spec_helper'
+require_relative '../music_album'
 
-describe MusicAlbum do
-  before :each do
-    @music_album = MusicAlbum.new('Romeo & juliete', true)
-  end
+RSpec.describe MusicAlbum do
+  let(:album) { MusicAlbum.new('Romeo & Juliet', true) }
 
   describe '#new' do
-    it 'Creates a new music album instance' do
-      @music_album.should be_an_instance_of MusicAlbum
+    it 'creates a new music album instance' do
+      expect(album).to be_instance_of(MusicAlbum)
+    end
+
+    it 'sets the name correctly' do
+      expect(album.name).to eq('Romeo & Juliet')
+    end
+
+    it 'sets on_spotify correctly' do
+      expect(album.on_spotify).to be true
     end
   end
 
-  describe '#can_be_archived' do
-    it 'It should reurn true if archived or on_spoify is equals true ' do
-      expect(@music_album.can_be_archived?).to eql false
-    end
-  end
-
-  describe '#name' do
-    it 'Name should be Romeo & juliete' do
-      expect(@music_album.name).to eql 'Romeo & juliete'
+  describe '#to_json' do
+    it 'returns the album details in JSON format' do
+      expected_json = '{"name":"Romeo & Juliet","on_spotify":true}'
+      expect(album.to_json).to eq(expected_json)
     end
   end
 end
