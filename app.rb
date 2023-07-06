@@ -1,223 +1,267 @@
 require './modules/music_album_module'
-require_relative './book'
-require_relative './music_album'
+# require './modules/game_module'
+require_relative 'book'
+require_relative 'music_album'
+require_relative 'game'
+require_relative 'game_author'
+# require_relative 'genre'
 require 'json'
 
 class App
-  attr_accessor :books, :music_albums, :genres, :games
+  attr_accessor :books, :music_album, :games, :labels, :file_name
 
   def initialize
     @books = []
-    @music_albums = []
-    @genres = []
+    @music_album = []
     @games = []
-    load_data
+    @labels = []
+    @genres = []
+    @game_author = []
   end
 
-  def load_data
-    if File.exist?('add_book.json')
-      books_data = JSON.parse(File.read('add_book.json'))
-      books_data.each do |book|
-        @books.push(Book.new(book['title'], book['author'], book['genre']))
-      end
-    end
-
-    if File.exist?('add_music_album.json')
-      music_albums_data = JSON.parse(File.read('add_music_album.json'))
-      music_albums_data.each do |album|
-        @music_albums.push(MusicAlbum.new(album['name'], album['on_spotify']))
-      end
-    end
-
-    if File.exist?('add_genre.json')
-      genres_data = JSON.parse(File.read('add_genre.json'))
-      genres_data.each do |genre|
-        @genres.push(Genre.new(genre['name']))
-      end
-    end
-
-    if File.exist?('add_game_author.json')
-      game_authors_data = JSON.parse(File.read('add_game_author.json'))
-      game_authors_data.each do |author|
-        @games.push(GameAuthor.new(author['name'], author['game']))
-      end
-    end
-  end
+  # add_book
 
   def add_book
-    puts 'Enter book title:'
+    puts 'Enter published date'
+    published_date = gets.chomp
+    puts 'Enter title'
     title = gets.chomp
-
-    puts 'Enter book author:'
+    puts 'Enter author'
     author = gets.chomp
-
-    puts 'Enter book cover state:'
+    puts 'Enter cover state'
     cover_state = gets.chomp
-    book = Book.new(published_date, title, author, cover_state)
-    @books << book
-    puts 'book added'
-    # puts @books
-    @books.each do |book|
-      print "published date: #{book.published_date} ", "title: #{book.title} ", "author: #{book.author} ", "cover state: #{book.cover_state}"
-    end
+    puts 'Enter genre'
+    genre = gets.chomp
+    @books << Book.new(published_date, title, author, cover_state, genre)
+    hashed = @books.map(&:to_hash)
+    json = JSON.generate(hashed)
+    File.write('book.json', json)
+    # update_book = []
+    # @books.each do |book|
+    #   update_book << { 'name' => book.title, 'publish_date' => book.published_date, 'cover_state' => book.cover_state, 'author' => book.author, 'genre' => book.genre }
+    # end
 
-    'books.json'
+    # File.write('book.json', JSON.generate(update_book))
+    puts 'book added'
   end
 
   # add label
 
-  # def add_label
-  #   puts 'Enter label name'
-  #   label_name = gets.chomp
-  #   label = Label.new(label_name)
-  #   @labels << label
-  #   puts 'label added'
-  #   puts @labels
-  # end
+  def add_label
+    puts 'Enter label name'
+    label_name = gets.chomp
+    label = Label.new(label_name)
+    @labels << label
+    puts 'label added'
+    puts @labels
+  end
 
   # add music album
 
   def add_music_album
-    puts 'Enter music album name:'
+    puts 'Enter published date'
+    published_date = gets.chomp
+    puts 'Enter name'
     name = gets.chomp
-    puts 'Is the music album on Spotify? (yes/no):'
-    on_spotify = gets.chomp.downcase == 'yes'
-    album = MusicAlbum.new(name, on_spotify)
-    @music_albums.push(album)
-    puts 'Music album added successfully.'
-    save_data
+    puts 'Enter genre'
+    genre = gets.chomp
+    puts 'On spotify?'
+    on_spotify = gets.chomp
+    on_spotify = true if on_spotify == 'yes'
+    on_spotify = false if on_spotify == 'no'
+    @music_album << MusicAlbum.new(published_date, name, genre, on_spotify).to_hash
+    hashed = @music_album.map(&:to_hash)
+    json = JSON.generate(hashed)
+    File.write('add_music_album.json', json)
+
+    puts 'music album added'
   end
+
+  # add game
+
+  def add_game
+    puts 'Enter published date'
+    published_date = gets.chomp
+    puts 'single player?'
+    single_player = gets.chomp
+    single_player = true if single_player == 'yes'
+    single_player = false if single_player == 'no'
+    puts 'Enter last played date'
+    last_played_at = gets.chomp
+    @games << Game.new(single_player, last_played_at, published_date).to_hash
+    hashed = @games.map(&:to_hash)
+    json = JSON.generate(hashed)
+    File.write('game.json', json)
+    puts 'game added'
+  end
+
+  # add game author
+  def add_game_author
+    puts 'First name'
+    first_name = gets.chomp
+    puts 'Last name'
+    last_name = gets.chomp
+    @game_author << GameAuthor.new(first_name, last_name).to_hash
+    hashed = @game_author.map(&:to_hash)
+    json = JSON.generate(hashed)
+    File.write('add_game_author.json', json)
+    puts 'game author added'
+  end
+
+  # add genre
 
   def add_genre
-    puts 'Enter genre name:'
-    name = gets.chomp
-    genre = Genre.new(name)
-    @genres.push(genre)
-    puts 'Genre added successfully.'
-    save_data
+    puts 'Enter genre'
+    genre = gets.chomp
+    @genres << Genre.new(genre).to_hash
+    hashed = @genres.map(&:to_hash)
+    json = JSON.generate(hashed)
+    File.write('add_genre.json', json)
+    puts 'genre added'
   end
 
-  def add_game_author
-    puts 'Enter author name:'
-    name = gets.chomp
-    puts 'Enter game:'
-    game = gets.chomp
-    author = GameAuthor.new(name, game)
-    @games.push(author)
-    puts 'Game author added successfully.'
-    save_data
-  end
-
-  # def add_game
-  #   puts 'Enter published date'
-  #   published_date = gets.chomp
-  #   puts 'single player?'
-  #   single_player = gets.chomp
-  #   single_player = true if single_player == 'yes'
-  #   single_player = false if single_player == 'no'
-  #   puts 'multiplayer?'
-  #   multiplayer = gets.chomp
-  #   multiplayer = true if multiplayer == 'yes'
-  #   multiplayer = false if multiplayer == 'no'
-  #   game = Game.new(published_date, single_player, multiplayer).to_hash
-  #   @games << game
-  #   file_name_write = 'games.json'
-  #   puts 'game added'
-  # end
-
-    File.write('add_book.json', JSON.generate(books_data))
-    File.write('add_music_album.json', JSON.generate(music_albums_data))
-    File.write('add_genre.json', JSON.generate(genres_data))
-    File.write('add_game_author.json', JSON.generate(games_data))
-  end
+  # display books
 
   def display_books
-    @books = JSON.parse(File.read('books.json'))
-    puts 'No books' if @books.empty?
+    puts 'books displayed'
     @books.each do |book|
-      puts "published date: #{book['published_date']}", "title: #{book['title']}", "author: #{book['author']}", "cover state: #{book['cover_state']}"
+      print "published date: #{book.published_date} , title: #{book.title} , author: #{book.author} , cover state: #{book.cover_state}"
     end
   end
-
-
 
   # display music album
 
   def display_music_album
-    @music_album = JSON.parse(File.read('music_album.json'))
+    @music_album = JSON.parse(File.read('add_music_album.json'))
     puts 'No music albums' if @music_album.empty?
     @music_album.each do |music_album|
       puts "published date: #{music_album['published_date']}", "on spotify: #{music_album['on_spotify']}"
     end
+    puts 'music albums displayed'
   end
 
-  def display_genres
-    if @genres.empty?
-      puts 'No genres found.'
-    else
-      puts 'List of genres:'
-      @genres.each do |genre|
-        puts "Name: #{genre.name}"
-        puts '-' * 30
-      end
-    end
-  end
+  # display games
 
   def display_games
-    if @games.empty?
-      puts 'No game authors found.'
+    @games = JSON.parse(File.read('game.json'))
+    puts 'No games' if @games.empty?
+    @games.each do |game|
+      puts "published date: #{game['published_date']}", "single player: #{game['single_player']}"
+    end
+    puts 'games displayed'
+  end
+
+  # display genres
+
+  def display_genres
+    @genres = JSON.parse(File.read('add_genre.json'))
+    puts 'No genres' if @genres.empty?
+    @genres.each do |genre|
+      puts "genre: #{genre['genre_name']}"
+    end
+    puts 'genres displayed'
+  end
+
+  # display game authors
+
+  def display_game_authors
+    @game_author = JSON.parse(File.read('add_game_author.json'))
+    puts 'No game authors' if @game_author.empty?
+    @game_author.each do |game_author|
+      puts "first name: #{game_author['first_name']}", "last name: #{game_author['last_name']}"
+    end
+    puts 'game authors displayed'
+  end
+
+  def get_data(file_name)
+    if File.exist?("#{file_name}.json")
+      File.read("#{file_name}.json")
     else
-      puts 'List of game authors:'
-      @games.each do |author|
-        puts "Author: #{author.name}"
-        puts "Game: #{author.game}"
-        puts '-' * 30
-      end
+      empty_json = [].to_json
+      File.write("#{file_name}.json", empty_json)
+      empty_json
     end
   end
+  
+  # def load_data
+    # musics = JSON.parse(get_data('music'))
+    # genres = JSON.parse(get_data('genres'))
+    # books = JSON.parse(get_data('books'))
+    # labels = JSON.parse(get_data('labels'))
+    # games = JSON.parse(get_data('games'))
+    # authors = JSON.parse(get_data('authors'))
+  
+    # musics.each do |music|
+    #   @musics << MusicAlbum.new(music['name'], music['publish_date'], music['on_spotify'])
+    # end
+  
+    # genres.each do |genre|
+    #   @genres << Genre.new(genre['name'])
+    # end
+  
+    # books.each do |book|
+    #   @books << Book.new(book['publisher'], book['cover_state'])
+    # end
+  
+    # labels.each do |label|
+    #   @labels << Label.new(label['title'], label['color'], label['items'])
+    # end
+  
+    # games.each do |game|
+    #   @games << Game.new(game['publish_date'], game['archived'], game['multiplayer'], game['last_played_at'],
+    #                      game['author'])
+    # end
+  
+    # authors.each do |author|
+    #   @authors << Author.new(author['id'], author['name'])
+    # end
+  # end
 
-  def options
-    loop do
-      puts 'Please choose an option:'
-      puts '1. Display all books'
-      puts '2. Display all music albums'
-      puts '3. Display all genres'
-      puts '4. Display all game authors'
-      puts '5. Add a book'
-      puts '6. Add a music album'
-      puts '7. Add a genre'
-      puts '8. Add a game author'
-      puts '9. Exit'
-
-      choice = gets.chomp.to_i
-
-      case choice
-      when 1
-        display_books
-      when 2
-        display_music_albums
-      when 3
-        display_genres
-      when 4
-        display_games
-      when 5
-        add_book
-      when 6
-        add_music_album
-      when 7
-        add_genre
-      when 8
-        add_game_author
-      when 9
-        save_data
-        puts 'Thank you for using the catalog app. Goodbye!'
-        break
-      else
-        puts 'Invalid option. Please try again.'
-      end
-    end
-  end
 end
 
-app = App.new
-app.options
+# def load_data
+#   if File.empty?('add_music_album.json')
+#     puts 'List is empty'
+#   else
+#     music_albums = JSON.parse(File.read('add_music_album.json'))
+#     music_albums.each do |album|
+#       @music_albums.push(MusicAlbum.new(album['name'], album['on_spotify']))
+#     end
+#   end
+#   if File.empty?('add_genre.json')
+#     puts 'List is empty'
+#   else
+#     genres = JSON.parse(File.read('add_genre.json'))
+#     genres.each do |genre|
+#       @genres.push(Genre.new(genre['gnr']))
+#     end
+#   end
+
+#     if File.empty?('book.json')
+#       puts 'List is empty'
+#     else
+#       books = JSON.parse(File.read('book.json'))
+#       books.each do |book|
+#         @books.push(Book.new(book['published_date'], book['title'], book['author'], book['cover_state'], book['genre']))
+#       end
+#     end
+
+#   def load_data
+#     music_albums = []
+#     genres = []
+#     books = []
+#     @music_albums.each do |album|
+#       music_albums.push({ name: album.name, on_spotify: album.on_spotify })
+#     end
+#     @genres.each do |gnr1|
+#       genres.push({ gnr: gnr1.name })
+#     end
+#     @books.each do |book|
+#       books.push({ published_date: book.published_date, title: book.title, author: book.author, cover_state: book.cover_state, genre: book.genre })
+#     end
+#     File.write('add_music_album.json', JSON.generate(music_albums))
+#     File.write('add_genre.json', JSON.generate(genres))
+#     File.write('book.json', JSON.generate(books))
+#   end
+# end
+
