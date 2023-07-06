@@ -1,7 +1,19 @@
+
 require './modules/music_album_module'
 require_relative './book'
 require_relative './music_album'
+game-update
+require_relative './music_album'
+require_relative 'item'
+require_relative 'book'
+require_relative 'music_album'
+require_relative 'game'
+require_relative 'genre'
+dev
+
 require 'json'
+require_relative './game'
+require_relative './author'
 
 class App
   attr_accessor :books, :music_albums, :genres, :games
@@ -63,6 +75,19 @@ class App
 
     'books.json'
   end
+ game-update
+  # add label
+
+   def add_label
+     puts 'Enter label name'
+    label_name = gets.chomp
+   label = Label.new(label_name)
+    @labels << label
+    puts 'label added'
+    puts @labels
+  end
+
+  # add music album
 
   # add label
 
@@ -78,6 +103,38 @@ class App
   # add music album
 
   def add_music_album
+    puts 'Enter published date'
+    published_date = gets.chomp
+    puts 'On spotify?'
+    on_spotify = gets.chomp
+    on spotify = true if on_spotify == 'yes'
+    on spotify = false if on_spotify == 'no'
+    music_album = MusicAlbum.new(published_date, on_spotify).to_hash
+    @music_album << music_album
+    puts 'music album added'
+  end
+
+  # add game
+
+  def add_game
+    puts 'Enter published date'
+    published_date = gets.chomp
+    puts 'single player?'
+    single_player = gets.chomp
+    single_player = true if single_player == 'yes'
+    single_player = false if single_player == 'no'
+    puts 'multiplayer?'
+    multiplayer = gets.chomp
+    multiplayer = true if multiplayer == 'yes'
+    multiplayer = false if multiplayer == 'no'
+    #game = Game.new(published_date, single_player).to_hash
+    @games << games
+    file_name_write = 'games.json'
+    puts 'game added'
+  end
+
+  #display books
+  def add_music_album
     puts 'Enter music album name:'
     name = gets.chomp
     puts 'Is the music album on Spotify? (yes/no):'
@@ -87,6 +144,7 @@ class App
     puts 'Music album added successfully.'
     save_data
   end
+ dev
 
   def add_genre
     puts 'Enter genre name:'
@@ -139,8 +197,6 @@ class App
     end
   end
 
-
-
   # display music album
 
   def display_music_album
@@ -148,8 +204,30 @@ class App
     puts 'No music albums' if @music_album.empty?
     @music_album.each do |music_album|
       puts "published date: #{music_album['published_date']}", "on spotify: #{music_album['on_spotify']}"
+  # display games
+
+#   def display_games
+#     @games = JSON.parse(File.read('games.json'))
+#     puts 'No games' if @games.empty?
+#     @games.each do |game|
+#       puts "published date: #{game['published_date']}", "single player: #{game['single_player']}", "multiplayer: #{game['multiplayer']}"
+#     end
+#     puts 'games displayed'
+#   end
+# end
+  def display_music_albums
+    if @music_albums.empty?
+      puts 'No music albums found.'
+    else
+      puts 'List of music albums:'
+      @music_albums.each do |album|
+        puts "Name: #{album.name}"
+        puts "On Spotify: #{album.on_spotify ? 'Yes' : 'No'}"
+        puts '-' * 30
+      end
     end
   end
+ dev
 
   def display_genres
     if @genres.empty?

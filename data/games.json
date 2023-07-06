@@ -1,0 +1,41 @@
+{
+  "games": [
+    {
+      "id": 100,
+      "title": "Beach Prunken",
+      "multiplayer": true,
+      "last_played_at": "20150101",
+      "publish_date": "2012/03/15"
+    },
+    
+    {
+      "id": 1,
+      "first_name": "Patrick",
+      "last_name": "Greame",
+      "items": [
+        {
+          "id": 645,
+          "title": "Patfarmus",
+          "multiplayer": false,
+          "last_played_at": "20220101",
+          "publish_date": "2020/01/01"
+        }
+      ]
+    },
+    
+    {
+      "id": 1,
+      "first_name": "Patrick",
+      "last_name": "Greame",
+      "items": [
+        {
+          "id": 645,
+          "title": "Patfarmus",
+          "multiplayer": false,
+          "last_played_at": "20220101",
+          "publish_date": "2020/01/01"
+        }
+      ]
+    }
+  ]
+}
