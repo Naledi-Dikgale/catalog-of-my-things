@@ -47,7 +47,7 @@ class App
     # File.write('book.json', JSON.generate(update_book))
     puts 'book added'
   end
- game-update
+ 
   # add label
 
    def add_label
@@ -92,7 +92,7 @@ class App
 
     puts 'music album added'
   end
- dev
+end
 
   # add game
 
@@ -177,7 +177,7 @@ class App
     end
     puts 'music albums displayed'
   end
- dev
+end
 
   # display games
 
