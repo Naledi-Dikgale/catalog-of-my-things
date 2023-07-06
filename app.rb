@@ -1,3 +1,7 @@
+
+require './modules/music_album_module'
+require_relative './book'
+require_relative './music_album'
 game-update
 require_relative './music_album'
 require_relative 'item'
@@ -6,6 +10,7 @@ require_relative 'music_album'
 require_relative 'game'
 require_relative 'genre'
 dev
+
 require 'json'
 require_relative './game'
 require_relative './author'
@@ -60,11 +65,15 @@ class App
 
     puts 'Enter book cover state:'
     cover_state = gets.chomp
+    book = Book.new(published_date, title, author, cover_state)
+    @books << book
+    puts 'book added'
+    # puts @books
+    @books.each do |book|
+      print "published date: #{book.published_date} ", "title: #{book.title} ", "author: #{book.author} ", "cover state: #{book.cover_state}"
+    end
 
-    book = Book.new(Date.today, title, author, cover_state)
-    @items.push(book)
-    puts 'Book added successfully.'
-    save_data
+    'books.json'
   end
  game-update
   # add label
@@ -77,6 +86,19 @@ class App
     puts 'label added'
     puts @labels
   end
+
+  # add music album
+
+  # add label
+
+  # def add_label
+  #   puts 'Enter label name'
+  #   label_name = gets.chomp
+  #   label = Label.new(label_name)
+  #   @labels << label
+  #   puts 'label added'
+  #   puts @labels
+  # end
 
   # add music album
 
@@ -144,11 +166,22 @@ class App
     save_data
   end
 
-  def save_data
-    books_data = @books.map { |book| { 'title' => book.title, 'author' => book.author, 'genre' => book.genre } }
-    music_albums_data = @music_albums.map { |album| { 'name' => album.name, 'on_spotify' => album.on_spotify } }
-    genres_data = @genres.map { |genre| { 'name' => genre.name } }
-    games_data = @games.map { |author| { 'name' => author.name, 'game' => author.game } }
+  # def add_game
+  #   puts 'Enter published date'
+  #   published_date = gets.chomp
+  #   puts 'single player?'
+  #   single_player = gets.chomp
+  #   single_player = true if single_player == 'yes'
+  #   single_player = false if single_player == 'no'
+  #   puts 'multiplayer?'
+  #   multiplayer = gets.chomp
+  #   multiplayer = true if multiplayer == 'yes'
+  #   multiplayer = false if multiplayer == 'no'
+  #   game = Game.new(published_date, single_player, multiplayer).to_hash
+  #   @games << game
+  #   file_name_write = 'games.json'
+  #   puts 'game added'
+  # end
 
     File.write('add_book.json', JSON.generate(books_data))
     File.write('add_music_album.json', JSON.generate(music_albums_data))
@@ -157,20 +190,20 @@ class App
   end
 
   def display_books
-    if @books.empty?
-      puts 'No books found.'
-    else
-      puts 'List of books:'
-      @books.each do |book|
-        puts "Title: #{book.title}"
-        puts "Author: #{book.author}"
-        puts "Genre: #{book.genre}"
-        puts '-' * 30
-      end
+    @books = JSON.parse(File.read('books.json'))
+    puts 'No books' if @books.empty?
+    @books.each do |book|
+      puts "published date: #{book['published_date']}", "title: #{book['title']}", "author: #{book['author']}", "cover state: #{book['cover_state']}"
     end
   end
 
- game-update
+  # display music album
+
+  def display_music_album
+    @music_album = JSON.parse(File.read('music_album.json'))
+    puts 'No music albums' if @music_album.empty?
+    @music_album.each do |music_album|
+      puts "published date: #{music_album['published_date']}", "on spotify: #{music_album['on_spotify']}"
   # display games
 
 #   def display_games

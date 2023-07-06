@@ -3,6 +3,9 @@ require_relative 'item'
 class Book < Item
   attr_accessor :title, :author, :cover_state
 
+  def initialize(published_date, title, author, cover_state)
+    super(published_date)
+    # @id = rand(1..1000)
  game-update
   def initialize(published_date, title, author, cover_state)
     super(published_date)
