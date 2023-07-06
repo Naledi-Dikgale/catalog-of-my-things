@@ -12,7 +12,7 @@ class Genre
 
   def add_item(item)
     @items << item
-    item.genre = self
+    item.genre = self if item.respond_to?(:genre=)
   end
 
   def to_json(*_args)

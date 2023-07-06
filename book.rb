@@ -1,12 +1,14 @@
 require_relative 'item'
 
 class Book < Item
-  # attr_reader :id
   attr_accessor :title, :author, :cover_state
 
+ game-update
   def initialize(published_date, title, author, cover_state)
     super(published_date)
     # @id = rand(1..1000)
+  def initialize(title, author, cover_state)
+ dev
     @title = title
     @author = author
     @cover_state = cover_state
@@ -14,18 +16,17 @@ class Book < Item
 
   def to_hash
     {
+ game-update
       # id: @id,
+ dev
       published_date: @published_date,
-      publisher: @publisher,
+      title: @title,
+      author: @author,
       cover_state: @cover_state
     }
   end
 
   def can_be_archived?
-    if super || cover_state == 'bad'
-      true
-    else
-      false
-    end
+    super || @cover_state == 'bad'
   end
 end

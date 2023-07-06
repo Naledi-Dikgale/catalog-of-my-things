@@ -15,6 +15,7 @@ class GameStore
   def add_game(game)
     @games << game
     game.authors.each { |author| add_author(author) }
+ game-update
     puts "Game '#{game.title}' has been added."
     save_data
   end
@@ -38,10 +39,34 @@ class GameStore
         puts "Publish Date: #{game.publish_date}"
         puts "Authors: #{game.authors.map(&:full_name).join(', ')}"
         puts '-' * 50
+    puts "Game '#{game.title}' added"
+    save_data
+  end
+
+  def add_author(author)
+    return if authors.include?(author)
+
+    authors << author
+  end
+
+  def list_games
+    if @games.empty?
+      puts "No games"
+    else
+      puts "Games information \n"
+      games.each do |game|
+        puts "Game ID: #{game.id}"
+        puts "Title: #{game.title}"
+        puts "Author: #{game.authors.map(&:full_name).join(', ')}"
+        puts "Multiplayer: #{game.multiplayer ? 'Yes' : 'No'}"
+        puts "Last Played At: #{game.last_played_at}"
+        puts "Publish Date: #{game.publish_date}"
+        puts '-' * 60
       end
     end
   end
 
+ game-update
   def list_authors
     if authors.empty?
       puts 'There are no authors in the catalog.'
@@ -53,9 +78,22 @@ class GameStore
         puts "Items: #{author.items.map(&:title).join(', ')}"
         puts '-' * 50
       end
+  def save_data
+    if File.exist?('./data/games.json')
+      existing_data = JSON.parse(File.read('./data/games.json'), symbolize_names: true)
+      data = {
+        games: existing_data[:games] + games.map(&:to_hash),
+        authors: existing_data[:authors] + authors.map(&:to_hash)
+      }
+    else
+      data = {
+        games: games.map(&:to_hash),
+        authors: authors.map(&:to_hash)
+      }
     end
   end
 
+ game-update
   def save_data
     if File.exist?('./data/games.json')
       existing_data = JSON.parse(File.read('./data/games.json'), symbolize_names: true)
@@ -87,6 +125,24 @@ class GameStore
       game
     end
 
+    File.write('./data/games.json', JSON.pretty_generate(data))
+  end
+
+  def load_data
+    return unless File.exist?('./data/games.json')
+
+    data = JSON.parse(File.read('./data/games.json'), symbolize_names: true)
+
+    @games = data[:games].map do |game_data|
+      game = Game.new(game_data[:title], game_data[:multiplayer], game_data[:last_played_at], game_data[:publish_date])
+      game_data[:authors]&.each do |author_data|
+        author = Author.new(author_data[:first_name], author_data[:last_name])
+        game.add_author(author)
+      end
+      game
+    end
+
+ dev
     @authors = []
     return unless data[:authors]
 
@@ -99,7 +155,9 @@ class GameStore
   def run
     app = App.new
     loop do
+ game-update
       puts "Welcome!\nChoose an option: "
+      puts "Choose an option: " dev
       puts '1. List all games'
       puts '2. List all authors'
       puts '3. Add game'
@@ -113,6 +171,7 @@ class GameStore
       when 3
         puts 'Enter game title:'
         title = gets.chomp
+ game-update
         puts 'Is the game multiplayer? (Y/N)'
         multiplayer = gets.chomp.downcase == 'y'
         puts 'Enter the date of the last time the game was played (YYYY/MM/DD):'
@@ -120,6 +179,15 @@ class GameStore
         puts 'Enter the game\'s publish date (YYYY/MM/DD):'
         publish_date = gets.chomp
         game = Game.new(title, multiplayer, last_played_at, publish_date, [])
+
+        puts 'Is the game multiplayer? (YES or NO)'
+        multiplayer = gets.chomp.downcase == 'yes'
+        puts 'Enter the date of the last time the game was played (YYYY-MM-DD):'
+        last_played_at = gets.chomp
+        puts 'Enter the game\'s publish date (YYYY-MM-DD):'
+        publish_date = gets.chomp
+        game = Game.new(title, multiplayer, last_played_at, publish_date)
+dev
         puts 'Enter author first name:'
         first_name = gets.chomp
         puts 'Enter author last name:'
@@ -129,13 +197,19 @@ class GameStore
         add_game(game)
       when 4
         save_data
+ game-update
         print 'Thanks for using our catalog'
         puts "\n"
         return app.main_menu
       else
         puts 'Ooops!!! Invalid option'
+        puts 'Thanks for playing'
+        return app.main_menu
+      else
+        puts 'Invalid option'
         return run
       end
     end
   end
+end
 end

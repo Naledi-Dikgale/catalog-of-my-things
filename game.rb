@@ -18,6 +18,7 @@ class Game < Item
   end
 
   def add_authors(authors)
+ game-update
     authors.each { |author| add_author(author) }
   end
 
@@ -26,6 +27,11 @@ class Game < Item
 
     authors << author
     author.add_item(self)
+    return if @authors.include?(authors)
+
+    @authors << authors
+    authors.add_item(self)
+dev
   end
 
   def can_be_archived?
