@@ -1,6 +1,7 @@
-require './modules/music_album_module'
 require_relative './music_album'
 require 'json'
+require_relative './game'
+require_relative './author'
 
 class App
   attr_accessor :books, :music_album, :games, :labels, :file_name
@@ -32,49 +33,49 @@ class App
 
   # add label
 
-  # def add_label
-  #   puts 'Enter label name'
-  #   label_name = gets.chomp
-  #   label = Label.new(label_name)
-  #   @labels << label
-  #   puts 'label added'
-  #   puts @labels
-  # end
+   def add_label
+     puts 'Enter label name'
+    label_name = gets.chomp
+   label = Label.new(label_name)
+    @labels << label
+    puts 'label added'
+    puts @labels
+  end
 
   # add music album
 
-  # def add_music_album
-  #   puts 'Enter published date'
-  #   published_date = gets.chomp
-  #   puts 'On spotify?'
-  #   on_spotify = gets.chomp
-  #   on spotify = true if on_spotify == 'yes'
-  #   on spotify = false if on_spotify == 'no'
-  #   music_album = MusicAlbum.new(published_date, on_spotify).to_hash
-  #   @music_album << music_album
-  #   puts 'music album added'
-  # end
+  def add_music_album
+    puts 'Enter published date'
+    published_date = gets.chomp
+    puts 'On spotify?'
+    on_spotify = gets.chomp
+    on spotify = true if on_spotify == 'yes'
+    on spotify = false if on_spotify == 'no'
+    music_album = MusicAlbum.new(published_date, on_spotify).to_hash
+    @music_album << music_album
+    puts 'music album added'
+  end
 
   # add game
 
-  # def add_game
-  #   puts 'Enter published date'
-  #   published_date = gets.chomp
-  #   puts 'single player?'
-  #   single_player = gets.chomp
-  #   single_player = true if single_player == 'yes'
-  #   single_player = false if single_player == 'no'
-  #   puts 'multiplayer?'
-  #   multiplayer = gets.chomp
-  #   multiplayer = true if multiplayer == 'yes'
-  #   multiplayer = false if multiplayer == 'no'
-  #   game = Game.new(published_date, single_player, multiplayer).to_hash
-  #   @games << game
-  #   file_name_write = 'games.json'
-  #   puts 'game added'
-  # end
+  def add_game
+    puts 'Enter published date'
+    published_date = gets.chomp
+    puts 'single player?'
+    single_player = gets.chomp
+    single_player = true if single_player == 'yes'
+    single_player = false if single_player == 'no'
+    puts 'multiplayer?'
+    multiplayer = gets.chomp
+    multiplayer = true if multiplayer == 'yes'
+    multiplayer = false if multiplayer == 'no'
+    #game = Game.new(published_date, single_player).to_hash
+    @games << games
+    file_name_write = 'games.json'
+    puts 'game added'
+  end
 
-  # display books
+  #display books
 
   def display_books
     @books = JSON.parse(File.read('books.json'))
@@ -100,15 +101,15 @@ class App
 
   # display games
 
-  def display_games
-    @games = JSON.parse(File.read('games.json'))
-    puts 'No games' if @games.empty?
-    @games.each do |game|
-      puts "published date: #{game['published_date']}", "single player: #{game['single_player']}", "multiplayer: #{game['multiplayer']}"
-    end
-    puts 'games displayed'
-  end
-end
+#   def display_games
+#     @games = JSON.parse(File.read('games.json'))
+#     puts 'No games' if @games.empty?
+#     @games.each do |game|
+#       puts "published date: #{game['published_date']}", "single player: #{game['single_player']}", "multiplayer: #{game['multiplayer']}"
+#     end
+#     puts 'games displayed'
+#   end
+# end
 
 def load_data
   if File.empty?('add_music_album.json')
