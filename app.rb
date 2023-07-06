@@ -1,3 +1,4 @@
+
 require './modules/music_album_module'
 # require './modules/game_module'
 require_relative 'book'
@@ -6,6 +7,8 @@ require_relative 'game'
 require_relative 'game_author'
 # require_relative 'genre'
 require 'json'
+require_relative './game'
+require_relative './author'
 
 class App
   attr_accessor :books, :music_album, :games, :labels, :file_name
@@ -44,6 +47,19 @@ class App
     # File.write('book.json', JSON.generate(update_book))
     puts 'book added'
   end
+ game-update
+  # add label
+
+   def add_label
+     puts 'Enter label name'
+    label_name = gets.chomp
+   label = Label.new(label_name)
+    @labels << label
+    puts 'label added'
+    puts @labels
+  end
+
+  # add music album
 
   # add label
 
@@ -76,6 +92,7 @@ class App
 
     puts 'music album added'
   end
+ dev
 
   # add game
 
@@ -136,9 +153,31 @@ class App
     puts 'No music albums' if @music_album.empty?
     @music_album.each do |music_album|
       puts "published date: #{music_album['published_date']}", "on spotify: #{music_album['on_spotify']}"
+  # display games
+
+#   def display_games
+#     @games = JSON.parse(File.read('games.json'))
+#     puts 'No games' if @games.empty?
+#     @games.each do |game|
+#       puts "published date: #{game['published_date']}", "single player: #{game['single_player']}", "multiplayer: #{game['multiplayer']}"
+#     end
+#     puts 'games displayed'
+#   end
+# end
+  def display_music_albums
+    if @music_albums.empty?
+      puts 'No music albums found.'
+    else
+      puts 'List of music albums:'
+      @music_albums.each do |album|
+        puts "Name: #{album.name}"
+        puts "On Spotify: #{album.on_spotify ? 'Yes' : 'No'}"
+        puts '-' * 30
+      end
     end
     puts 'music albums displayed'
   end
+ dev
 
   # display games
 
