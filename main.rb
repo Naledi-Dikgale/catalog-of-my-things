@@ -8,6 +8,7 @@ class Main
     puts 'Please choose an option'
     puts '1. Display all books'
     puts '2. Display all music albums'
+    puts '2. Display all genres'
     puts '3. Display all games'
     puts '4. Add books'
     puts '5. Add music album'
@@ -20,12 +21,16 @@ class Main
     case option
     when '1'
       app.display_books
+      menu
     when '2'
       app.display_music_album
+      menu
     when '3'
       app.display_games
+      menu
     when '4'
       app.add_book
+      menu
     when '5'
       app.add_music_album
     when '6'
