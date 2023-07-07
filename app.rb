@@ -5,6 +5,7 @@ require_relative 'game'
 require_relative 'game_author'
 require 'json'
 require_relative 'author'
+require_relative 'label'
 
 class App
   attr_accessor :books, :music_album, :games, :labels, :file_name
@@ -47,10 +48,11 @@ class App
   def add_label
     puts 'Enter label name'
     label_name = gets.chomp
-    label = Label.new(label_name)
-    @labels << label
+    @labels << Label.new(label_name).to_hash
+    hashed = @labels.map(&:to_hash)
+    json = JSON.generate(hashed)
+    File.write('label.json', json)
     puts 'label added'
-    puts @labels
   end
 
   # add music album
@@ -88,10 +90,6 @@ def add_game
   hashed = @games.map(&:to_hash)
   json = JSON.generate(hashed)
   File.write('game.json', json)
-  @games.each do |game|
-    puts "published date: #{game['published_date']}", "single player: #{game['multiplayer']}", "last played at: #{game['last_played_at']}"
-  end
-  @games.map(&:to_hash)
   puts 'game added'
 end
 
@@ -136,7 +134,7 @@ def display_games
   @games = JSON.parse(File.read('game.json'))
   puts 'No games' if @games.empty?
   @games.each do |game|
-    puts "published date: #{game['published_date']}", "single player: #{game['single_player']}"
+    puts "published date: #{game['published_date']}", "multy player: #{game['multiplayer']}"
   end
   puts 'games displayed'
 end
@@ -170,4 +168,15 @@ def display_game_authors
     puts "first name: #{game_author['first_name']}", "last name: #{game_author['last_name']}"
   end
   puts 'game authors displayed'
+end
+
+# display labels
+
+def display_labels
+  @labels = JSON.parse(File.read('label.json'))
+  puts 'No label' if @labels.empty?
+  @labels.each do |label|
+    puts "label name: #{label['title']}"
+  end
+  puts 'label displayed'
 end

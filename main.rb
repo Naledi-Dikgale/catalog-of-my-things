@@ -9,10 +9,11 @@ class Main
     4 => :display_games,
     5 => :add_book,
     6 => :add_music_album,
-    7 => :add_genre,
+    7 => :add_label,
     8 => :add_game,
     9 => :add_game_author,
-    10 => :exit
+    10 => :display_labels,
+    11 => :exit
   }.freeze
 
   def initialize(app)
@@ -28,10 +29,11 @@ class Main
       4 - Display all games
       5 - Add books
       6 - Add music album
-      7 - Add genre
+      7 - Add label
       8 - Add game
       9 - Add game author
-      10 - Thats all for now
+      10 - Display all labels
+      11 - Thats all for now
     OPTIONS
   end
 
