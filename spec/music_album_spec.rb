@@ -1,6 +1,5 @@
 require_relative '../music_album'
 
-
 describe MusicAlbum do
   let(:published_date) { '2022-01-01' }
   let(:name) { 'Album Name' }
