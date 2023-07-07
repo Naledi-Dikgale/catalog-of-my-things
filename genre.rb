@@ -5,21 +5,13 @@ class Genre
   attr_reader :items
 
   def initialize(name)
-    @id = rand(1..1000)
     @name = name
     @items = []
   end
 
-  def add_item(item)
-    @items << item
-    item.genre = self if item.respond_to?(:genre=)
-  end
-
-  def to_json(*_args)
-    JSON.generate(
-      {
-        name: @name
-      }
-    )
+  def to_hash
+    {
+      name: @name
+    }
   end
 end

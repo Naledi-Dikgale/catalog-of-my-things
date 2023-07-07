@@ -1,6 +1,4 @@
-require_relative 'item'
-
-class Label < Item
+class Label
   attr_reader :title, :items
 
   def initialize(title)

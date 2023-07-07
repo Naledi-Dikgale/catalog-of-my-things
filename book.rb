@@ -1,27 +1,18 @@
 require_relative 'item'
 
 class Book < Item
-  attr_accessor :title, :author, :cover_state
+  attr_accessor :title, :author, :cover_state, :genre
 
-  def initialize(published_date, title, author, cover_state)
-    super(published_date)
-    # @id = rand(1..1000)
- game-update
-  def initialize(published_date, title, author, cover_state)
-    super(published_date)
-    # @id = rand(1..1000)
-  def initialize(title, author, cover_state)
- dev
+  def initialize(published_date, title, author, cover_state, genre)
+    super(published_date, genre)
     @title = title
     @author = author
     @cover_state = cover_state
+    @genre = genre
   end
 
   def to_hash
     {
- game-update
-      # id: @id,
- dev
       published_date: @published_date,
       title: @title,
       author: @author,

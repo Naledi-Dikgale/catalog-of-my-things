@@ -1,8 +1,6 @@
-require 'date'
-require_relative '../author'
-require_relative '../game'
+require_relative '../game_author'
 
-describe Author do
+describe GameAuthor do
   let(:firstname) { 'John' }
   let(:lastname) { 'Doe' }
   subject { described_class.new(firstname, lastname) }

@@ -1,26 +1,30 @@
 require_relative '../music_album'
 
-RSpec.describe MusicAlbum do
-  let(:album) { MusicAlbum.new('Romeo & Juliet', true) }
+describe MusicAlbum do
+  let(:published_date) { '2022-01-01' }
+  let(:name) { 'Album Name' }
+  let(:genre) { 'Rock' }
+  let(:on_spotify) { true }
+  subject { described_class.new(published_date, name, genre, on_spotify) }
 
-  describe '#new' do
-    it 'creates a new music album instance' do
-      expect(album).to be_instance_of(MusicAlbum)
-    end
-
-    it 'sets the name correctly' do
-      expect(album.name).to eq('Romeo & Juliet')
-    end
-
-    it 'sets on_spotify correctly' do
-      expect(album.on_spotify).to be true
+  describe '#initialize' do
+    it 'assigns the correct values to instance variables' do
+      expect(subject.instance_variable_get(:@published_date)).to eq(published_date)
+      expect(subject.instance_variable_get(:@name)).to eq(name)
+      expect(subject.instance_variable_get(:@genre)).to eq(genre)
+      expect(subject.instance_variable_get(:@on_spotify)).to eq(on_spotify)
     end
   end
 
-  describe '#to_json' do
-    it 'returns the album details in JSON format' do
-      expected_json = '{"name":"Romeo & Juliet","on_spotify":true}'
-      expect(album.to_json).to eq(expected_json)
+  describe '#to_hash' do
+    it 'returns a hash with the correct keys and values' do
+      expected_hash = {
+        published_date: published_date,
+        name: name,
+        genre: genre,
+        on_spotify: on_spotify
+      }
+      expect(subject.to_hash).to eq(expected_hash)
     end
   end
 end

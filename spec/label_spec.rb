@@ -18,11 +18,6 @@ describe Label do
   describe '#add_item' do
     let(:item) { double('item') }
 
-    # it 'adds the item to the items array' do
-    #   subject.add_item(item)
-    #   expect(subject.items).to include(item)
-    # end
-
     it 'sets the label of the added item to itself' do
       expect(item).to receive(:label=).with(subject)
       subject.add_item(item)
@@ -39,16 +34,5 @@ describe Label do
       subject.add_item(item1)
       subject.add_item(item2)
     end
-
-    # it 'returns a hash with the correct keys and values' do
-    #   expected_hash = {
-    #     title: title,
-    #     items: [
-    #       { foo: 'bar' },
-    #       { baz: 'qux' }
-    #     ]
-    #   }
-    #   expect(subject.to_hash).to eq(expected_hash)
-    # end
   end
 end
