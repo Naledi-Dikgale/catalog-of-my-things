@@ -1,25 +1,24 @@
-require_relative 'spec_helper'
+# require_relative 'spec'
+require_relative '../genre'
 
-# describe Genre do
-#   before :each do
-#     @genre = Genre.new('Comedy')
-#     @item = Item.new('genre', 'author', 'label', 10)
-#   end
 describe Genre do
-  before :each do
-    @genre = Genre.new('Comedy')
-    @item = Item.new('genre', 'author', 'label', 10)
-  end
+  let(:name) { 'Action' }
+  subject { described_class.new(name) }
 
-  describe '#new' do
-    it 'Creates a new music album instance' do
-      @genre.should be_an_instance_of Genre
+  describe '#initialize' do
+    it 'assigns the correct values to instance variables' do
+      expect(subject.instance_variable_get(:@name)).to eq(name)
+      expect(subject.instance_variable_get(:@items)).to be_an(Array)
+      expect(subject.instance_variable_get(:@items)).to be_empty
     end
   end
 
-  describe '#add_item' do
-    it 'It should add new item' do
-      expect(@genre.add_item(@item)).should eql? @item
+  describe '#to_hash' do
+    it 'returns a hash with the correct keys and values' do
+      expected_hash = {
+        name: name
+      }
+      expect(subject.to_hash).to eq(expected_hash)
     end
   end
 end

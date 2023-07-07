@@ -2,14 +2,12 @@ require_relative 'item'
 require 'date'
 
 class Game < Item
-  attr_accessor :multiplayer, :last_played_at, :publish_date, :authors
+  attr_accessor :multiplayer, :last_played_at, :published_date, :authors
 
-  # attr_reader :id, :title
-
-  def initialize(_single_player, last_played_at, publish_date)
-    super(last_played_at, publish_date)
+  def initialize(_multiplayer, last_played_at, published_date)
+    super(last_played_at, published_date)
     @last_played_at = last_played_at
-    @publish_date = publish_date
+    @published_date = published_date
   end
 
   def to_hash
@@ -24,4 +22,3 @@ class Game < Item
     super || (Date.today - Date.parse(@last_played_at) > 365 * 2)
   end
 end
-
