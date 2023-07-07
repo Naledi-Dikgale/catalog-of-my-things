@@ -17,7 +17,7 @@ CREATE TABLE item (
 CREATE TABLE Genres (
   id INT Generated ALWAYS AS IDENTITY PRIMARY KEY,
   name VARCHAR(100),
-  items INT[],
+  items text[],
   foreign key (item_id) references item(id)
 );
 
@@ -37,7 +37,7 @@ CREATE TABLE Author(
     id int generated always as identity,
     first_name varchar(255),
     last_name varchar(255),
-    items INT[]
+    items text[]
     primary key (id)
     foreign key (item_id) references item(id)
 );
@@ -61,7 +61,7 @@ CREATE TABLE Label (
   title VARCHAR(255),
   color VARCHAR(255)
   publish_date date,
-  items INT[],
+  items text[],
   primary key (id)
   foreign key (item_id) references item(id)
 );
