@@ -17,6 +17,7 @@ CREATE TABLE item (
 CREATE TABLE Genres (
   id INT Generated ALWAYS AS IDENTITY PRIMARY KEY,
   name VARCHAR(100),
+  items text[],
   foreign key (item_id) references item(id)
 );
 
@@ -27,7 +28,7 @@ CREATE TABLE MusicAlbums (
   on_spotify BOOLEAN,
   archived BOOLEAN,
   genre_id INT,
-  CONSTRAINT fk_genre FOREIGN KEY (genre_id) REFERENCES genres(id)
+  CONSTRAINT fk_genre FOREIGN KEY (genre_id) REFERENCES genres(id),
 );
 
 -- Create author table
@@ -36,6 +37,7 @@ CREATE TABLE Author(
     id int generated always as identity,
     first_name varchar(255),
     last_name varchar(255),
+    items text[]
     primary key (id)
     foreign key (item_id) references item(id)
 );
@@ -59,6 +61,7 @@ CREATE TABLE Label (
   title VARCHAR(255),
   color VARCHAR(255)
   publish_date date,
+  items text[],
   primary key (id)
   foreign key (item_id) references item(id)
 );
