@@ -17,6 +17,7 @@ CREATE TABLE item (
 CREATE TABLE Genres (
   id INT Generated ALWAYS AS IDENTITY PRIMARY KEY,
   name VARCHAR(100),
+  foreign key (item_id) references item(id)
 );
 
 -- Create music albums table
@@ -36,6 +37,7 @@ CREATE TABLE Author(
     first_name varchar(255),
     last_name varchar(255),
     primary key (id)
+    foreign key (item_id) references item(id)
 );
 
 -- Create game table
@@ -58,6 +60,7 @@ CREATE TABLE Label (
   color VARCHAR(255)
   publish_date date,
   primary key (id)
+  foreign key (item_id) references item(id)
 );
 
 -- create schema for book
